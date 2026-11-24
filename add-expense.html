@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Transaction — ExpenseTracker</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/add-expense.css" />
+</head>
+<body>
+  <div class="layout">
+
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-icon">💸</span>
+        <span class="logo-text">ExpenseTracker</span>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Primary navigation">
+        <ul>
+          <li>
+            <a href="index.html" class="nav-item">
+              <span class="nav-icon">📊</span>
+              <span class="nav-label">Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="add-expense.html" class="nav-item active" aria-current="page">
+              <span class="nav-icon">➕</span>
+              <span class="nav-label">Add Expense</span>
+            </a>
+          </li>
+          <li>
+            <a href="transactions.html" class="nav-item">
+              <span class="nav-icon">🧾</span>
+              <span class="nav-label">Transactions</span>
+            </a>
+          </li>
+          <li>
+            <a href="categories.html" class="nav-item">
+              <span class="nav-icon">🗂️</span>
+              <span class="nav-label">Categories</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <footer class="sidebar-footer">
+        <p>© 2026 ExpenseTracker</p>
+        <p>All rights reserved.</p>
+        <p class="sidebar-test-link"><a href="tests.html">Run system tests</a></p>
+      </footer>
+    </aside>
+
+    <!-- ===================== MAIN CONTENT ===================== -->
+    <main class="main-content">
+
+      <!-- Page Header -->
+      <header class="page-header">
+        <div class="page-header-text">
+          <h1 class="page-title" id="page-title">Add Transaction</h1>
+          <p class="page-subtitle" id="page-subtitle">Record a new income or expense entry.</p>
+        </div>
+      </header>
+
+      <!-- Form Card -->
+      <div class="form-card card">
+
+        <!-- Type Selector -->
+        <div class="type-selector" role="group" aria-label="Transaction type">
+          <button type="button" class="type-btn" id="type-income-btn" data-type="income" aria-pressed="false">Income</button>
+          <button type="button" class="type-btn active type-expense" id="type-expense-btn" data-type="expense" aria-pressed="true">Expense</button>
+        </div>
+
+        <!-- Form Alert Notification -->
+        <div id="form-alert" class="form-alert" role="alert" aria-live="polite"></div>
+
+        <!-- Transaction Form -->
+        <form class="transaction-form" id="transaction-form" action="#" method="post" novalidate>
+          <input type="hidden" id="transaction-type" name="type" value="expense" />
+
+          <!-- Description -->
+          <div class="form-group">
+            <label class="form-label" for="description">Description</label>
+            <input
+              class="form-input"
+              type="text"
+              id="description"
+              name="description"
+              placeholder="e.g. Groceries, Salary…"
+              required
+            />
+          </div>
+
+          <!-- Amount -->
+          <div class="form-group">
+            <label class="form-label" for="amount">Amount (LKR)</label>
+            <input
+              class="form-input"
+              type="number"
+              id="amount"
+              name="amount"
+              placeholder="LKR 0.00"
+              min="0.01"
+              step="0.01"
+              required
+            />
+          </div>
+
+          <!-- Category -->
+          <div class="form-group">
+            <label class="form-label" for="category">Category</label>
+            <select class="form-select" id="category" name="category" required>
+              <option value="" disabled selected>Select a category</option>
+              <option value="food">Food</option>
+              <option value="transport">Transport</option>
+              <option value="shopping">Shopping</option>
+              <option value="bills">Bills</option>
+              <option value="entertainment">Entertainment</option>
+              <option value="healthcare">Healthcare</option>
+              <option value="education">Education</option>
+              <option value="other">Other</option>
+              <option value="work">Work / Salary</option>
+            </select>
+          </div>
+
+          <!-- Date -->
+          <div class="form-group">
+            <label class="form-label" for="date">Date</label>
+            <input
+              class="form-input"
+              type="date"
+              id="date"
+              name="date"
+              required
+            />
+          </div>
+
+          <!-- Notes -->
+          <div class="form-group">
+            <label class="form-label" for="notes">Notes <span class="form-optional">(optional)</span></label>
+            <textarea
+              class="form-textarea"
+              id="notes"
+              name="notes"
+              placeholder="Any additional details…"
+            ></textarea>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary btn-save" id="btn-save">Save Transaction</button>
+
+        </form>
+
+        <!-- Cancel Link -->
+        <div class="cancel-link-wrapper">
+          <a href="transactions.html" class="cancel-link">Cancel — back to Transactions</a>
+        </div>
+
+      </div>
+      <!-- /.form-card -->
+
+    </main>
+    <!-- /.main-content -->
+
+  </div>
+  <!-- /.layout -->
+
+  <!-- JavaScript -->
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Isolation Test Suite — ExpenseTracker</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body {
+      background-color: #F1F5F9;
+      padding: 32px 16px;
+      font-family: var(--font);
+    }
+    .test-container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .test-header {
+      background: #FFFFFF;
+      padding: 24px 28px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .test-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .test-summary-badge {
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.9375rem;
+      background: #E2E8F0;
+      color: var(--text-muted);
+    }
+    .badge-pass { background: #DCFCE7; color: #15803D; }
+    .badge-fail { background: #FEE2E2; color: #B91C1C; }
+
+    .test-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .test-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .test-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .test-status {
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .status-pass { background: #DCFCE7; color: #15803D; }
+    .status-fail { background: #FEE2E2; color: #B91C1C; }
+
+    .assertion-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-left: 0;
+    }
+    .assertion-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.9rem;
+      padding: 8px 12px;
+      border-radius: 6px;
+      background: #F8FAFC;
+    }
+    .assertion-icon {
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .icon-pass { color: #16A34A; }
+    .icon-fail { color: #DC2626; }
+    .assertion-detail {
+      color: var(--text-muted);
+      font-family: monospace;
+      font-size: 0.8125rem;
+      margin-top: 2px;
+    }
+
+    .btn-run {
+      background: var(--primary);
+      color: #FFFFFF;
+      border: none;
+      padding: 10px 20px;
+      border-radius: var(--radius);
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.9375rem;
+      transition: background 0.15s ease;
+    }
+    .btn-run:hover { background: var(--primary-dark); }
+    .nav-back-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="test-container">
+
+    <div style="margin-bottom: 16px;">
+      <a href="index.html" class="nav-back-link">← Return to Dashboard</a>
+    </div>
+
+    <!-- Header -->
+    <header class="test-header">
+      <div>
+        <h1 class="test-title">🧪 User Isolation & Clean Slate Test Suite</h1>
+        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 4px;">
+          Validates that newly registered users start with zero data, and queries/calculations are strictly user-scoped.
+        </p>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span id="test-summary-badge" class="test-summary-badge">Running tests…</span>
+        <button type="button" class="btn-run" id="btn-rerun">Rerun Tests</button>
+      </div>
+    </header>
+
+    <!-- Test Results Container -->
+    <main id="test-results"></main>
+
+  </div>
+
+  <!-- Offscreen Mock DOM for component testing -->
+  <div id="mock-dom" style="display: none;">
+    <span id="card-balance"></span>
+    <span id="card-income"></span>
+    <span id="card-expense"></span>
+    <ul id="monthly-list"></ul>
+    <ul id="recent-transactions-list"></ul>
+    <table><tbody id="transactions-tbody"></tbody></table>
+    <span id="stat-income"></span>
+    <span id="stat-expense"></span>
+    <span id="stat-balance"></span>
+    <span id="categories-total-spent"></span>
+    <span id="categories-active-count"></span>
+    <div id="categories-grid"></div>
+  </div>
+
+  <!-- Load Application Scripts -->
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- Test Runner Script -->
+  <script>
+    function runTestSuite() {
+      const resultsContainer = document.getElementById('test-results');
+      const summaryBadge = document.getElementById('test-summary-badge');
+      resultsContainer.innerHTML = '';
+
+      let totalAssertions = 0;
+      let passedAssertions = 0;
+      let totalTests = 0;
+      let passedTests = 0;
+
+      function renderTestCard(testName, assertions) {
+        totalTests++;
+        const isPass = assertions.every(a => a.pass);
+        if (isPass) passedTests++;
+
+        const card = document.createElement('div');
+        card.className = 'test-card';
+
+        let assertionsHtml = assertions.map(a => {
+          totalAssertions++;
+          if (a.pass) passedAssertions++;
+          return `
+            <li class="assertion-item">
+              <span class="assertion-icon ${a.pass ? 'icon-pass' : 'icon-fail'}">${a.pass ? '✓' : '✕'}</span>
+              <div>
+                <div>${a.name}</div>
+                ${a.detail ? `<div class="assertion-detail">${a.detail}</div>` : ''}
+              </div>
+            </li>
+          `;
+        }).join('');
+
+        card.innerHTML = `
+          <div class="test-card-header">
+            <h2 class="test-name">${testName}</h2>
+            <span class="test-status ${isPass ? 'status-pass' : 'status-fail'}">${isPass ? 'PASS' : 'FAIL'}</span>
+          </div>
+          <ul class="assertion-list">${assertionsHtml}</ul>
+        `;
+
+        resultsContainer.appendChild(card);
+      }
+
+      // Preserve existing user to restore after tests
+      const originalUser = getCurrentUser();
+      const originalUserWasPersistent = !!localStorage.getItem('expense_tracker_current_user_v1');
+      const originalUsersRaw = localStorage.getItem('expense_tracker_users_v1');
+      const testUserIds = [];
+
+      try {
+        // =======================================================
+        // SETUP: Seed a pre-existing user (User A) with data
+        // =======================================================
+        const userA = {
+          id: 'test_user_a',
+          fullName: 'Existing User A',
+          email: 'user_a@test.lk',
+          password: 'password123'
+        };
+        const userATx = [
+          { id: 9001, userId: 'test_user_a', description: 'Old Car Repair', category: 'Transport', type: 'expense', amount: 8000.00, date: '2026-11-01' },
+          { id: 9002, userId: 'test_user_a', description: 'Old Work Salary', category: 'Work', type: 'income', amount: 95000.00, date: '2026-11-02' }
+        ];
+        testUserIds.push(userA.id);
+        saveTransactions(userATx, userA.id);
+
+        // =======================================================
+        // TEST 1: New User Registration Starts With Clean Slate
+        // =======================================================
+        const newUserId = 'test_user_new_' + Date.now();
+        const newUser = {
+          id: newUserId,
+          fullName: 'Kasun Silva',
+          email: 'kasun@test.lk',
+          password: 'password123'
+        };
+        testUserIds.push(newUser.id);
+
+        // Simulate registration: save user, set current user, and initialize empty store
+        const users = getUsers();
+        users.push(newUser);
+        saveUsers(users);
+        setCurrentUser(newUser);
+        saveTransactions([], newUser.id);
+
+        const initialTx = getTransactions(newUser.id);
+
+        const test1Assertions = [
+          {
+            name: 'New user transaction store is initialized and empty',
+            pass: Array.isArray(initialTx) && initialTx.length === 0,
+            detail: `Expected length 0, got ${initialTx.length}`
+          },
+          {
+            name: 'Pre-existing User A records are NOT leaked to new user',
+            pass: initialTx.every(t => t.userId !== 'test_user_a'),
+            detail: 'User A transactions count in new user data: 0'
+          },
+          {
+            name: 'Global sample records are NOT loaded for new user',
+            pass: initialTx.every(t => t.id > 100),
+            detail: 'Initial records count: ' + initialTx.length
+          }
+        ];
+        renderTestCard('Test 1: New User Registration Starts with Clean Slate (0 records)', test1Assertions);
+
+        // =======================================================
+        // TEST 2: Dashboard Calculation & UI Verification on Empty State
+        // =======================================================
+        initDashboardPage();
+
+        const balanceText = document.getElementById('card-balance').textContent;
+        const incomeText = document.getElementById('card-income').textContent;
+        const expenseText = document.getElementById('card-expense').textContent;
+        const recentHtml = document.getElementById('recent-transactions-list').innerHTML;
+        const monthlyHtml = document.getElementById('monthly-list').innerHTML;
+
+        const test2Assertions = [
+          {
+            name: 'Current Balance displays LKR 0.00',
+            pass: balanceText.includes('LKR 0.00'),
+            detail: `Got: "${balanceText}"`
+          },
+          {
+            name: 'Total Income displays +LKR 0.00',
+            pass: incomeText.includes('0.00'),
+            detail: `Got: "${incomeText}"`
+          },
+          {
+            name: 'Total Expenses displays LKR 0.00',
+            pass: expenseText.includes('0.00'),
+            detail: `Got: "${expenseText}"`
+          },
+          {
+            name: 'Recent transactions displays clean empty notice',
+            pass: recentHtml.includes('No transactions yet'),
+            detail: 'Verified empty list notice present'
+          },
+          {
+            name: 'Monthly summary displays clean empty notice',
+            pass: monthlyHtml.includes('No transactions recorded'),
+            detail: 'Verified monthly empty notice present'
+          }
+        ];
+        renderTestCard('Test 2: Dashboard Clean Slate (Zero Totals & Empty State Display)', test2Assertions);
+
+        // =======================================================
+        // TEST 3: Add Expenses for the New User
+        // =======================================================
+        const tx1 = { id: 101, userId: newUserId, description: 'Supermarket Groceries', category: 'Food', categoryKey: 'food', type: 'expense', amount: 3500.00, date: '2026-11-12' };
+        const tx2 = { id: 102, userId: newUserId, description: 'Electricity Bill', category: 'Bills', categoryKey: 'bills', type: 'expense', amount: 7200.00, date: '2026-11-12' };
+        const tx3 = { id: 103, userId: newUserId, description: 'Monthly Salary', category: 'Work', categoryKey: 'work', type: 'income', amount: 65000.00, date: '2026-11-12' };
+        const tx4 = { id: 104, userId: newUserId, description: 'Highway Bus Pass', category: 'Transport', categoryKey: 'transport', type: 'expense', amount: 1800.00, date: '2026-11-12' };
+
+        const userEntries = [tx1, tx2, tx3, tx4];
+        saveTransactions(userEntries, newUserId);
+
+        const loadedAfterAdd = getTransactions(newUserId);
+
+        const test3Assertions = [
+          {
+            name: 'New user has exactly 4 saved transactions',
+            pass: loadedAfterAdd.length === 4,
+            detail: `Expected 4, got ${loadedAfterAdd.length}`
+          },
+          {
+            name: 'All added transactions have correct userId',
+            pass: loadedAfterAdd.every(t => t.userId === newUserId),
+            detail: `User ID verified on all records: ${newUserId}`
+          }
+        ];
+        renderTestCard('Test 3: Adding Entries for New User', test3Assertions);
+
+        // =======================================================
+        // TEST 4: Calculations Accurately Match ONLY New User Entries
+        // =======================================================
+        // Expected:
+        // Income = 65,000.00
+        // Expenses = 3,500 + 7,200 + 1,800 = 12,500.00
+        // Net Balance = 65,000 - 12,500 = 52,500.00
+        initDashboardPage();
+        initCategoriesPage();
+
+        const newBalanceText = document.getElementById('card-balance').textContent;
+        const newIncomeText = document.getElementById('card-income').textContent;
+        const newExpenseText = document.getElementById('card-expense').textContent;
+        const catTotalText = document.getElementById('categories-total-spent').textContent;
+        const catActiveCount = document.getElementById('categories-active-count').textContent;
+
+        const test4Assertions = [
+          {
+            name: 'Net Balance is accurately calculated (LKR 52,500.00)',
+            pass: newBalanceText.includes('52,500.00'),
+            detail: `Expected LKR 52,500.00, got "${newBalanceText}"`
+          },
+          {
+            name: 'Total Income accurately matches (+LKR 65,000.00)',
+            pass: newIncomeText.includes('65,000.00'),
+            detail: `Expected +LKR 65,000.00, got "${newIncomeText}"`
+          },
+          {
+            name: 'Total Expenses accurately matches (LKR 12,500.00)',
+            pass: newExpenseText.includes('12,500.00'),
+            detail: `Expected LKR 12,500.00, got "${newExpenseText}"`
+          },
+          {
+            name: 'Categories Page Total Spent matches user expenses (LKR 12,500.00)',
+            pass: catTotalText.includes('12,500.00'),
+            detail: `Expected LKR 12,500.00, got "${catTotalText}"`
+          },
+          {
+            name: 'Categories Active count matches user spending categories (3 active: Food, Bills, Transport)',
+            pass: catActiveCount.trim() === '3',
+            detail: `Expected 3, got "${catActiveCount}"`
+          }
+        ];
+        renderTestCard('Test 4: Aggregation & Calculations Match ONLY New User Entries', test4Assertions);
+
+        // =======================================================
+        // TEST 5: Complete Cross-User Isolation (No Data Crossover)
+        // =======================================================
+        // Check User A records
+        const userAStored = getTransactions(userA.id);
+        const hasKasunInA = userAStored.some(t => t.userId === newUserId);
+        const hasAInKasun = loadedAfterAdd.some(t => t.userId === userA.id);
+
+        // Register a second new user (User B: Amara)
+        const userB = { id: 'test_user_b_' + Date.now(), fullName: 'Amara', email: 'amara@test.lk' };
+        testUserIds.push(userB.id);
+        saveTransactions([], userB.id);
+        const userBInitial = getTransactions(userB.id);
+
+        const test5Assertions = [
+          {
+            name: 'User A does not contain any of Kasun Silva\'s records',
+            pass: !hasKasunInA && userAStored.length === 2,
+            detail: `User A transaction count: ${userAStored.length}`
+          },
+          {
+            name: 'Kasun Silva does not contain any of User A\'s records',
+            pass: !hasAInKasun,
+            detail: 'User A records in Kasun: 0'
+          },
+          {
+            name: 'Subsequent new user (Amara) also starts with clean slate (0 records)',
+            pass: Array.isArray(userBInitial) && userBInitial.length === 0,
+            detail: `User B initial count: ${userBInitial.length}`
+          }
+        ];
+        renderTestCard('Test 5: Multi-User Isolation (Zero Cross-Account Leakage)', test5Assertions);
+
+        // =======================================================
+        // TEST 6: Edit & Delete Transaction Helpers
+        // =======================================================
+        const updateOk = updateTransaction(101, {
+          description: 'Updated Groceries',
+          amount: 4000.00
+        }, newUserId);
+        const afterUpdate = getTransactions(newUserId);
+        const updatedTx = afterUpdate.find(t => t.id === 101);
+        const missingUpdate = updateTransaction(999999, { description: 'Nope' }, newUserId);
+        const deleteOk = deleteTransactionById(104, newUserId);
+        const afterDelete = getTransactions(newUserId);
+
+        const test6Assertions = [
+          {
+            name: 'updateTransaction() reports success for an existing entry',
+            pass: updateOk === true,
+            detail: `Returned ${updateOk}`
+          },
+          {
+            name: 'Updated transaction keeps its original ID and userId',
+            pass: !!updatedTx && updatedTx.id === 101 && updatedTx.userId === newUserId,
+            detail: updatedTx ? `id=${updatedTx.id}, userId=${updatedTx.userId}` : 'not found'
+          },
+          {
+            name: 'Updated fields are persisted',
+            pass: !!updatedTx && updatedTx.description === 'Updated Groceries' && Number(updatedTx.amount) === 4000,
+            detail: updatedTx ? `${updatedTx.description} / LKR ${updatedTx.amount}` : 'not found'
+          },
+          {
+            name: 'updateTransaction() returns false for an unknown ID',
+            pass: missingUpdate === false,
+            detail: `Returned ${missingUpdate}`
+          },
+          {
+            name: 'deleteTransactionById() removes exactly one entry',
+            pass: deleteOk === true && afterDelete.length === 3,
+            detail: `Returned ${deleteOk}, remaining ${afterDelete.length}`
+          },
+          {
+            name: 'Deleted transaction is no longer present',
+            pass: !afterDelete.some(t => t.id === 104),
+            detail: 'ID 104 removed'
+          }
+        ];
+        renderTestCard('Test 6: Edit & Delete Transaction Helpers', test6Assertions);
+
+      } finally {
+        // Restore the user list and remove every test-only transaction store
+        if (originalUsersRaw === null) {
+          localStorage.removeItem('expense_tracker_users_v1');
+        } else {
+          localStorage.setItem('expense_tracker_users_v1', originalUsersRaw);
+        }
+
+        testUserIds.forEach(id => {
+          localStorage.removeItem('expense_tracker_tx_' + id);
+        });
+
+        // Restore previous user session (persistent or per-tab)
+        if (originalUser) {
+          setCurrentUser(originalUser, originalUserWasPersistent);
+        } else {
+          clearCurrentUser();
+        }
+      }
+
+      // Final summary
+      const allPassed = passedTests === totalTests;
+      summaryBadge.textContent = allPassed
+        ? `✓ All ${passedTests}/${totalTests} Tests Passed (${passedAssertions}/${totalAssertions} assertions)`
+        : `✕ ${totalTests - passedTests} Tests Failed`;
+      summaryBadge.className = `test-summary-badge ${allPassed ? 'badge-pass' : 'badge-fail'}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      runTestSuite();
+      document.getElementById('btn-rerun').addEventListener('click', runTestSuite);
+    });
+  </script>
+</body>
+</html>

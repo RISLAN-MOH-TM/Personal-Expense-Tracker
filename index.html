@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — ExpenseTracker</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="layout">
+
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-icon">💸</span>
+        <span class="logo-text">ExpenseTracker</span>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Primary navigation">
+        <ul>
+          <li>
+            <a href="index.html" class="nav-item active" aria-current="page">
+              <span class="nav-icon">📊</span>
+              <span class="nav-label">Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="add-expense.html" class="nav-item">
+              <span class="nav-icon">➕</span>
+              <span class="nav-label">Add Expense</span>
+            </a>
+          </li>
+          <li>
+            <a href="transactions.html" class="nav-item">
+              <span class="nav-icon">🧾</span>
+              <span class="nav-label">Transactions</span>
+            </a>
+          </li>
+          <li>
+            <a href="categories.html" class="nav-item">
+              <span class="nav-icon">🗂️</span>
+              <span class="nav-label">Categories</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <footer class="sidebar-footer">
+        <p>© 2026 ExpenseTracker</p>
+        <p>All rights reserved.</p>
+        <p class="sidebar-test-link"><a href="tests.html">Run system tests</a></p>
+      </footer>
+    </aside>
+
+    <!-- ===================== MAIN CONTENT ===================== -->
+    <main class="main-content">
+
+      <!-- Page Header -->
+      <header class="page-header">
+        <div class="page-header-text">
+          <h1 class="page-title">Dashboard</h1>
+          <p class="page-subtitle">Welcome back! Here's your financial overview.</p>
+        </div>
+        <a href="add-expense.html" class="btn btn-primary">+ Add Transaction</a>
+      </header>
+
+      <!-- Summary Cards -->
+      <section class="summary-cards" aria-label="Financial summary">
+
+        <article class="summary-card balance">
+          <div class="card-icon">💰</div>
+          <div class="card-info">
+            <span class="card-label">Current Balance</span>
+            <span class="amount" id="card-balance">LKR 0.00</span>
+          </div>
+        </article>
+
+        <article class="summary-card income">
+          <div class="card-icon">📈</div>
+          <div class="card-info">
+            <span class="card-label">Total Income</span>
+            <span class="amount positive" id="card-income">+LKR 0.00</span>
+          </div>
+        </article>
+
+        <article class="summary-card expense">
+          <div class="card-icon">📉</div>
+          <div class="card-info">
+            <span class="card-label">Total Expenses</span>
+            <span class="amount negative" id="card-expense">LKR 0.00</span>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- Monthly Summary -->
+      <section class="card monthly-summary" aria-label="Monthly summary">
+        <div class="section-header">
+          <h2 class="section-title" id="monthly-summary-title">Monthly Summary — November 2026</h2>
+          <select class="form-select month-select" id="summary-month" aria-label="Select month for monthly summary"></select>
+        </div>
+        <ul class="monthly-list" id="monthly-list">
+          <li class="monthly-empty">
+            <span class="monthly-empty-icon">📅</span>
+            <span>No transactions recorded for this month yet.</span>
+            <a href="add-expense.html" class="monthly-empty-link">Add a transaction →</a>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Recent Transactions -->
+      <section class="card recent-transactions" aria-label="Recent transactions">
+        <div class="section-header">
+          <h2 class="section-title">Recent Transactions</h2>
+          <a href="transactions.html" class="view-all-link">View all →</a>
+        </div>
+
+        <ul class="transaction-list" id="recent-transactions-list">
+          <li class="transaction-item" style="justify-content: center; color: var(--text-muted); padding: 24px;">
+            No transactions yet. Add your first transaction above!
+          </li>
+        </ul>
+      </section>
+
+    </main>
+    <!-- /.main-content -->
+
+  </div>
+  <!-- /.layout -->
+
+  <!-- JavaScript -->
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

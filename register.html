@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register — ExpenseTracker</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/auth.css" />
+</head>
+<body class="auth-page">
+
+  <div class="auth-wrapper">
+
+    <!-- Brand Header -->
+    <header class="auth-brand">
+      <a href="index.html" class="auth-logo">
+        <span class="auth-logo-icon">💸</span>
+        <span class="auth-logo-text">ExpenseTracker</span>
+      </a>
+      <p class="auth-tagline">Create your free personal finance account</p>
+    </header>
+
+    <!-- Main Registration Card -->
+    <main class="auth-card">
+
+      <div class="auth-header">
+        <h1 class="auth-title">Create an Account</h1>
+        <p class="auth-subtitle">Start tracking your income and expenses in LKR</p>
+      </div>
+
+      <!-- Alert Notification Banner -->
+      <div id="auth-alert" class="auth-alert" role="alert" aria-live="polite"></div>
+
+      <!-- Registration Form -->
+      <form id="register-form" novalidate>
+
+        <!-- 1. Full Name -->
+        <div class="form-group">
+          <label class="form-label" for="reg-fullname">1. Full Name</label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="reg-fullname"
+              name="fullname"
+              class="form-input"
+              placeholder="e.g. Nimal Perera"
+              autocomplete="name"
+              autofocus
+              required
+            />
+          </div>
+        </div>
+
+        <!-- 2. Email -->
+        <div class="form-group">
+          <label class="form-label" for="reg-email">2. Email Address</label>
+          <div class="input-wrapper">
+            <input
+              type="email"
+              id="reg-email"
+              name="email"
+              class="form-input"
+              placeholder="name@example.com"
+              autocomplete="email"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- 3. Password with Show Password Toggle -->
+        <div class="form-group">
+          <label class="form-label" for="reg-password">3. Password</label>
+          <div class="input-wrapper has-toggle">
+            <input
+              type="password"
+              id="reg-password"
+              name="password"
+              class="form-input"
+              placeholder="Minimum 6 characters"
+              autocomplete="new-password"
+              required
+            />
+            <button
+              type="button"
+              class="btn-toggle-pwd"
+              data-target="reg-password"
+              aria-label="Show password"
+              title="Show password"
+            >
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. Confirm Password with Show Password Toggle -->
+        <div class="form-group">
+          <label class="form-label" for="reg-confirm-password">4. Confirm Password</label>
+          <div class="input-wrapper has-toggle">
+            <input
+              type="password"
+              id="reg-confirm-password"
+              name="confirm-password"
+              class="form-input"
+              placeholder="Re-enter your password"
+              autocomplete="new-password"
+              required
+            />
+            <button
+              type="button"
+              class="btn-toggle-pwd"
+              data-target="reg-confirm-password"
+              aria-label="Show password"
+              title="Show password"
+            >
+              👁️
+            </button>
+          </div>
+          <div class="pwd-match-hint" id="pwd-match-hint"></div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-auth-submit" id="btn-register-submit">
+          Create Account
+        </button>
+
+      </form>
+
+      <!-- Already Registered Notice & Direct Login Button -->
+      <footer class="auth-footer">
+        <p style="margin-bottom: 10px;">Already have an account?</p>
+        <a href="login.html" class="btn btn-outline" style="display:inline-block; width:100%; text-align:center; padding:10px 16px; border-radius:var(--radius); border:1px solid var(--primary); color:var(--primary); font-weight:700; text-decoration:none; transition:all 0.15s ease;">
+          Move to Login Page →
+        </a>
+      </footer>
+
+    </main>
+
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/auth.js"></script>
+</body>
+</html>

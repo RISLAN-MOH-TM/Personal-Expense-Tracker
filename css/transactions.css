@@ -1,0 +1,415 @@
+/* =============================================================
+   transactions.css  —  Page-specific styles for transactions.html
+   ============================================================= */
+
+/* -------------------------------------------------------
+   1. Filter Bar
+   ------------------------------------------------------- */
+.filter-bar {
+  display:        flex;
+  flex-direction: column;
+  gap:            12px;
+  margin-bottom:  16px;
+  padding:        16px 20px;
+}
+
+.filter-main {
+  display:     flex;
+  align-items: center;
+  gap:         12px;
+  flex-wrap:   wrap;
+}
+
+.filter-advanced {
+  display:     flex;
+  align-items: flex-end;
+  gap:         12px;
+  flex-wrap:   wrap;
+}
+
+.filter-field {
+  display:        flex;
+  flex-direction: column;
+  gap:            4px;
+}
+
+.filter-label {
+  font-size:      0.6875rem;
+  font-weight:    700;
+  color:          var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Search input stretches to fill remaining space */
+.search-input {
+  flex:      1;
+  min-width: 180px;
+}
+
+/* Category & type dropdowns */
+.filter-select {
+  width:     auto;
+  min-width: 140px;
+  flex-shrink: 0;
+}
+
+.filter-date {
+  width:     150px;
+  font-size: 0.875rem;
+}
+
+/* Filter button */
+.filter-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* Reset button */
+.reset-btn {
+  flex-shrink:   0;
+  white-space:   nowrap;
+  background:    transparent;
+  border:        1px solid var(--border);
+  color:         var(--text-muted);
+  padding:       10px 16px;
+  border-radius: var(--radius);
+  cursor:        pointer;
+  font-weight:   600;
+  font-size:     0.9375rem;
+  transition:    all 0.15s ease;
+}
+
+.reset-btn:hover {
+  background:   var(--border);
+  color:        var(--text);
+  border-color: var(--text-muted);
+}
+
+/* -------------------------------------------------------
+   1b. Table Toolbar (count + export)
+   ------------------------------------------------------- */
+.table-toolbar {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  gap:             12px;
+  flex-wrap:       wrap;
+  margin-bottom:   12px;
+}
+
+.transaction-count {
+  font-size:   0.875rem;
+  font-weight: 500;
+  color:       var(--text-muted);
+}
+
+/* -------------------------------------------------------
+   2. Table Card Wrapper
+   ------------------------------------------------------- */
+.table-card {
+  padding:       0;
+  overflow:      hidden;   /* clips table corners */
+  margin-bottom: 20px;
+}
+
+/* Horizontal scroll on small screens */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* -------------------------------------------------------
+   3. Transactions Table
+   ------------------------------------------------------- */
+.transactions-table {
+  width:           100%;
+  border-collapse: collapse;
+  font-size:       0.9375rem;
+  min-width:       600px; /* prevents squish before scroll kicks in */
+}
+
+/* Table Head */
+.transactions-table thead tr {
+  background: var(--primary);
+}
+
+.transactions-table thead th {
+  padding:        14px 20px;
+  text-align:     left;
+  color:          #fff;
+  font-weight:    600;
+  font-size:      0.875rem;
+  letter-spacing: 0.03em;
+  white-space:    nowrap;
+}
+
+/* Amount column right-aligned */
+.col-amount {
+  text-align: right !important;
+}
+
+/* Table Body */
+.transactions-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition:    background 0.1s ease;
+}
+
+/* Zebra striping */
+.transactions-table tbody tr:nth-child(even) {
+  background: var(--bg);
+}
+
+.transactions-table tbody tr:nth-child(odd) {
+  background: var(--surface);
+}
+
+/* Hover highlight */
+.transactions-table tbody tr:hover {
+  background: var(--primary-light);
+}
+
+.transactions-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+/* Table cells */
+.transactions-table tbody td {
+  padding:  14px 20px;
+  color:    var(--text);
+  vertical-align: middle;
+}
+
+/* Description cell with emoji icon */
+.td-desc {
+  display:     flex;
+  align-items: center;
+  gap:         10px;
+  font-weight: 500;
+}
+
+.row-icon {
+  font-size:  1.1rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.desc-block {
+  display:        flex;
+  flex-direction: column;
+  gap:            2px;
+  min-width:      0;
+}
+
+.desc-text {
+  font-weight: 600;
+}
+
+.desc-notes {
+  font-size:     0.75rem;
+  color:         var(--text-muted);
+  font-weight:   400;
+  max-width:     300px;
+  white-space:   nowrap;
+  overflow:      hidden;
+  text-overflow: ellipsis;
+}
+
+/* -------------------------------------------------------
+   4. Type Badges
+   ------------------------------------------------------- */
+.badge {
+  display:        inline-block;
+  padding:        3px 10px;
+  border-radius:  999px;
+  font-size:      0.8rem;
+  font-weight:    600;
+  letter-spacing: 0.03em;
+  white-space:    nowrap;
+}
+
+.badge-income {
+  background: var(--income-light);
+  color:      var(--income);
+}
+
+.badge-expense {
+  background: var(--expense-light);
+  color:      var(--expense);
+}
+
+/* -------------------------------------------------------
+   5. Amount Colors & Actions
+   ------------------------------------------------------- */
+.amount-income {
+  color:       var(--income);
+  font-weight: 700;
+}
+
+.amount-expense {
+  color:       var(--expense);
+  font-weight: 700;
+}
+
+/* Action column (edit / delete buttons) */
+.col-action {
+  text-align: center;
+  width:      92px;
+}
+
+.action-buttons {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  gap:             2px;
+}
+
+.btn-edit,
+.btn-delete {
+  background:    transparent;
+  border:        none;
+  cursor:        pointer;
+  padding:       6px 8px;
+  border-radius: var(--radius-sm);
+  font-size:     1.05rem;
+  line-height:   1;
+  transition:    background 0.15s ease, transform 0.1s ease;
+}
+
+.btn-edit:hover {
+  background: var(--primary-light);
+  transform:  scale(1.15);
+}
+
+.btn-delete:hover {
+  background: var(--expense-light);
+  transform:  scale(1.15);
+}
+
+/* Empty State */
+.td-empty {
+  padding:    48px 24px !important;
+  text-align: center;
+}
+
+.empty-state {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            8px;
+}
+
+.empty-icon {
+  font-size: 2.2rem;
+}
+
+.empty-title {
+  font-size:   1.1rem;
+  font-weight: 700;
+  color:       var(--text);
+}
+
+.empty-subtitle {
+  font-size: 0.9rem;
+  color:     var(--text-muted);
+}
+
+.empty-reset-btn {
+  margin-top: 10px;
+}
+
+/* -------------------------------------------------------
+   6. Table Summary Row
+   ------------------------------------------------------- */
+.table-summary {
+  display:         flex;
+  align-items:     stretch;
+  justify-content: space-around;
+  gap:             0;
+  padding:         0;
+  overflow:        hidden;
+}
+
+.summary-stat {
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  gap:             6px;
+  padding:         20px 24px;
+  flex:            1;
+}
+
+.summary-stat-label {
+  font-size:      0.8125rem;
+  font-weight:    600;
+  color:          var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.summary-stat-value {
+  font-size:   1.375rem;
+  font-weight: 700;
+  color:       var(--text);
+}
+
+/* Vertical divider between stat blocks */
+.summary-divider {
+  width:      1px;
+  background: var(--border);
+  align-self: stretch;
+}
+
+/* -------------------------------------------------------
+   7. Responsive
+   ------------------------------------------------------- */
+@media (max-width: 768px) {
+  .filter-main,
+  .filter-advanced {
+    flex-direction: column;
+    align-items:    stretch;
+  }
+
+  .filter-select,
+  .search-input,
+  .filter-btn,
+  .reset-btn,
+  .filter-date,
+  .filter-field {
+    width:     100%;
+    min-width: 0;
+  }
+
+  .table-summary {
+    flex-direction: column;
+  }
+
+  .summary-divider {
+    width:  100%;
+    height: 1px;
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-bar {
+    padding: 14px 12px;
+  }
+
+  .table-toolbar {
+    align-items: stretch;
+  }
+
+  .table-toolbar > .btn,
+  .table-toolbar > .transaction-count {
+    width: 100%;
+  }
+
+  .summary-stat {
+    padding: 16px 12px;
+  }
+
+  .summary-stat-value {
+    font-size: 1.125rem;
+  }
+}

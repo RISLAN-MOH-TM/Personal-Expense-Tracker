@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Categories — ExpenseTracker</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/categories.css" />
+</head>
+<body>
+  <div class="layout">
+
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-icon">💸</span>
+        <span class="logo-text">ExpenseTracker</span>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Primary navigation">
+        <ul>
+          <li>
+            <a href="index.html" class="nav-item">
+              <span class="nav-icon">📊</span>
+              <span class="nav-label">Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="add-expense.html" class="nav-item">
+              <span class="nav-icon">➕</span>
+              <span class="nav-label">Add Expense</span>
+            </a>
+          </li>
+          <li>
+            <a href="transactions.html" class="nav-item">
+              <span class="nav-icon">🧾</span>
+              <span class="nav-label">Transactions</span>
+            </a>
+          </li>
+          <li>
+            <a href="categories.html" class="nav-item active" aria-current="page">
+              <span class="nav-icon">🗂️</span>
+              <span class="nav-label">Categories</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <footer class="sidebar-footer">
+        <p>© 2026 ExpenseTracker</p>
+        <p>All rights reserved.</p>
+        <p class="sidebar-test-link"><a href="tests.html">Run system tests</a></p>
+      </footer>
+    </aside>
+
+    <!-- ===================== MAIN CONTENT ===================== -->
+    <main class="main-content">
+
+      <!-- Page Header -->
+      <header class="page-header">
+        <div class="page-header-text">
+          <h1 class="page-title">Categories</h1>
+          <p class="page-subtitle">Spending breakdown by category.</p>
+        </div>
+      </header>
+
+      <!-- Overall Stats -->
+      <section class="category-stats" aria-label="Overall spending stats">
+
+        <article class="card category-stat-card">
+          <div class="stat-icon">💳</div>
+          <div class="stat-info">
+            <span class="stat-label">Total Spent</span>
+            <span class="stat-value amount negative" id="categories-total-spent">LKR 0.00</span>
+          </div>
+        </article>
+
+        <article class="card category-stat-card">
+          <div class="stat-icon">🗂️</div>
+          <div class="stat-info">
+            <span class="stat-label">Categories Active</span>
+            <span class="stat-value" id="categories-active-count">0</span>
+          </div>
+        </article>
+
+        <article class="card category-stat-card">
+          <div class="stat-icon">🧾</div>
+          <div class="stat-info">
+            <span class="stat-label">Expense Entries</span>
+            <span class="stat-value" id="categories-tx-count">0</span>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- Empty state (shown when the user has no expenses yet) -->
+      <div class="card empty-categories" id="categories-empty" style="display: none;">
+        <span class="empty-categories-icon">📊</span>
+        <div>
+          <h2 class="empty-categories-title">No expenses recorded yet</h2>
+          <p class="empty-categories-text">Add your first expense to see the category breakdown and spending progress bars.</p>
+        </div>
+        <a href="add-expense.html" class="btn btn-primary">+ Add Transaction</a>
+      </div>
+
+      <!-- Category Cards Grid -->
+      <section class="categories-grid" id="categories-grid" aria-label="Category breakdown">
+
+        <!-- Food -->
+        <article class="category-card card">
+          <div class="category-icon icon-food">🍔</div>
+          <div class="category-details">
+            <span class="category-name">Food</span>
+            <span class="category-amount amount negative">LKR 0.00</span>
+          </div>
+          <div class="progress-bar-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Food spending progress">
+            <div class="progress-bar-fill fill-food" style="width: 0%;"></div>
+          </div>
+          <span class="category-pct">No spending yet</span>
+        </article>
+
+        <!-- Transport -->
+        <article class="category-card card">
+          <div class="category-icon icon-transport">🚌</div>
+          <div class="category-details">
+            <span class="category-name">Transport</span>
+            <span class="category-amount amount negative">LKR 0.00</span>
+          </div>
+          <div class="progress-bar-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Transport spending progress">
+            <div class="progress-bar-fill fill-transport" style="width: 0%;"></div>
+          </div>
+          <span class="category-pct">No spending yet</span>
+        </article>
+
+        <!-- Shopping -->
+        <article class="category-card card">
+          <div class="category-icon icon-shopping">🛍️</div>
+          <div class="category-details">
+            <span class="category-name">Shopping</span>
+            <span class="category-amount amount negative">LKR 0.00</span>
+          </div>
+          <div class="progress-bar-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Shopping spending progress">
+            <div class="progress-bar-fill fill-shopping" style="width: 0%;"></div>
+          </div>
+          <span class="category-pct">No spending yet</span>
+        </article>
+
+        <!-- Bills -->
+        <article class="category-card card">
+          <div class="category-icon icon-bills">⚡</div>
+          <div class="category-details">
+            <span class="category-name">Bills</span>
+            <span class="category-amount amount negative">LKR 0.00</span>
+          </div>
+          <div class="progress-bar-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Bills spending progress">
+            <div class="progress-bar-fill fill-bills" style="width: 0%;"></div>
+          </div>
+          <span class="category-pct">No spending yet</span>
+        </article>
+
+        <!-- Entertainment -->
+        <article class="category-card card">
+          <div class="category-icon icon-entertainment">🎬</div>
+          <div class="category-details">
+            <span class="category-name">Entertainment</span>
+            <span class="category-amount amount negative">LKR 0.00</span>
+          </div>
+          <div class="progress-bar-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Entertainment spending progress">
+            <div class="progress-bar-fill fill-entertainment" style="width: 0%;"></div>
+          </div>
+          <span class="category-pct">No spending yet</span>
+        </article>
+
+        <!-- Healthcare -->
+        <article class="category-card card">
+          <div class="category-icon icon-healthcare">❤️</div>
+          <div class="category-details">
+            <span class="category-name">Healthcare</span>
+            <span class="category-amount amount negative">LKR 0.00</span>
+          </div>
+          <div class="progress-bar-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Healthcare spending progress">
+            <div class="progress-bar-fill fill-healthcare" style="width: 0%;"></div>
+          </div>
+          <span class="category-pct">No spending yet</span>
+        </article>
+
+        <!-- Education -->
+        <article class="category-card card">
+          <div class="category-icon icon-education">📚</div>
+          <div class="category-details">
+            <span class="category-name">Education</span>
+            <span class="category-amount amount negative">LKR 0.00</span>
+          </div>
+          <div class="progress-bar-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Education spending progress">
+            <div class="progress-bar-fill fill-education" style="width: 0%;"></div>
+          </div>
+          <span class="category-pct">No spending yet</span>
+        </article>
+
+        <!-- Other -->
+        <article class="category-card card">
+          <div class="category-icon icon-other">📦</div>
+          <div class="category-details">
+            <span class="category-name">Other</span>
+            <span class="category-amount amount negative">LKR 0.00</span>
+          </div>
+          <div class="progress-bar-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Other spending progress">
+            <div class="progress-bar-fill fill-other" style="width: 0%;"></div>
+          </div>
+          <span class="category-pct">No spending yet</span>
+        </article>
+
+      </section>
+
+    </main>
+    <!-- /.main-content -->
+
+  </div>
+  <!-- /.layout -->
+
+  <!-- JavaScript -->
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

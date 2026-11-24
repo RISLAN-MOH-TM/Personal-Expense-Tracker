@@ -1,0 +1,226 @@
+/* =============================================================
+   categories.css  —  Page-specific styles for categories.html
+   ============================================================= */
+
+/* -------------------------------------------------------
+   1. Overall Stats Row
+   ------------------------------------------------------- */
+.category-stats {
+  display:               grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap:                   20px;
+  margin-bottom:         28px;
+}
+
+.category-stat-card {
+  display:     flex;
+  align-items: center;
+  gap:         16px;
+}
+
+.stat-icon {
+  font-size:  2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.stat-info {
+  display:        flex;
+  flex-direction: column;
+  gap:            4px;
+}
+
+.stat-label {
+  font-size:      0.8125rem;
+  font-weight:    600;
+  color:          var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.stat-value {
+  font-size:   1.625rem;
+  font-weight: 700;
+  color:       var(--text);
+}
+
+/* -------------------------------------------------------
+   2. Categories Grid
+   ------------------------------------------------------- */
+.categories-grid {
+  display:               grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:                   20px;
+}
+
+/* -------------------------------------------------------
+   3. Category Card
+   ------------------------------------------------------- */
+.category-card {
+  display:        flex;
+  flex-direction: column;
+  gap:            12px;
+  padding:        20px;
+}
+
+/* -------------------------------------------------------
+   4. Category Icon — colored circle with emoji
+   ------------------------------------------------------- */
+.category-icon {
+  width:          48px;
+  height:         48px;
+  border-radius:  50%;
+  display:        flex;
+  align-items:    center;
+  justify-content: center;
+  font-size:      1.5rem;
+  line-height:    1;
+  flex-shrink:    0;
+}
+
+/* Per-category icon background colors */
+.icon-food          { background: #FFF7ED; } /* orange tint  */
+.icon-transport     { background: #EFF6FF; } /* blue tint    */
+.icon-shopping      { background: #FAF5FF; } /* purple tint  */
+.icon-bills         { background: #FEFCE8; } /* yellow tint  */
+.icon-entertainment { background: #FDF2F8; } /* pink tint    */
+.icon-healthcare    { background: #FEF2F2; } /* red tint     */
+.icon-education     { background: #F0FDFA; } /* teal tint    */
+.icon-work          { background: #EEF2FF; } /* indigo tint  */
+.icon-other         { background: #F8FAFC; } /* gray tint    */
+
+/* -------------------------------------------------------
+   5. Category Details — name + amount row
+   ------------------------------------------------------- */
+.category-details {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     baseline;
+  gap:             8px;
+}
+
+.category-name {
+  font-size:   0.9375rem;
+  font-weight: 700;
+  color:       var(--text);
+}
+
+.category-amount {
+  font-size:   1rem;
+  font-weight: 700;
+}
+
+/* -------------------------------------------------------
+   6. Progress Bar
+   ------------------------------------------------------- */
+.progress-bar-container {
+  width:         100%;
+  height:        8px;
+  background:    var(--border);
+  border-radius: 999px;
+  overflow:      hidden;
+}
+
+.progress-bar-fill {
+  height:        100%;
+  border-radius: 999px;
+  width:         var(--bar-width, 0%);
+  transition:    width 0.4s ease;
+}
+
+/* Per-category fill colors */
+.fill-food          { background: #F97316; } /* orange  */
+.fill-transport     { background: #2563EB; } /* blue    */
+.fill-shopping      { background: #9333EA; } /* purple  */
+.fill-bills         { background: #EAB308; } /* yellow  */
+.fill-entertainment { background: #EC4899; } /* pink    */
+.fill-healthcare    { background: #DC2626; } /* red     */
+.fill-education     { background: #0D9488; } /* teal    */
+.fill-work          { background: #4F46E5; } /* indigo  */
+.fill-other         { background: #94A3B8; } /* gray    */
+
+/* -------------------------------------------------------
+   7. Category Percentage Caption & Meta
+   ------------------------------------------------------- */
+.category-meta {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  gap:             8px;
+  flex-wrap:       wrap;
+}
+
+.category-pct {
+  font-size: 0.8rem;
+  color:     var(--text-muted);
+}
+
+.category-count {
+  font-size:   0.75rem;
+  color:       var(--text-muted);
+  font-weight: 500;
+}
+
+.category-link {
+  font-size:       0.8125rem;
+  font-weight:     600;
+  text-decoration: none;
+  align-self:      flex-start;
+}
+
+.category-link:hover {
+  text-decoration: underline;
+}
+
+/* -------------------------------------------------------
+   7b. Empty state
+   ------------------------------------------------------- */
+.empty-categories {
+  display:     flex;
+  align-items: center;
+  gap:         16px;
+  margin-bottom: 20px;
+  flex-wrap:   wrap;
+}
+
+.empty-categories-icon {
+  font-size:   2rem;
+  line-height: 1;
+}
+
+.empty-categories-title {
+  font-size:   1rem;
+  font-weight: 700;
+  color:       var(--text);
+}
+
+.empty-categories-text {
+  font-size: 0.875rem;
+  color:     var(--text-muted);
+}
+
+.empty-categories .btn {
+  margin-left: auto;
+}
+
+/* -------------------------------------------------------
+   8. Responsive — Tablet (2 columns)
+   ------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* -------------------------------------------------------
+   9. Responsive — Mobile (1 column)
+   ------------------------------------------------------- */
+@media (max-width: 768px) {
+  .category-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .categories-grid {
+    grid-template-columns: 1fr;
+  }
+}

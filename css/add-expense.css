@@ -1,0 +1,223 @@
+/* =============================================================
+   add-expense.css  —  Page-specific styles for add-expense.html
+   ============================================================= */
+
+/* -------------------------------------------------------
+   1. Form Card — centered, max-width container
+   ------------------------------------------------------- */
+.form-card {
+  max-width:  600px;
+  margin:     0 auto;
+}
+
+/* -------------------------------------------------------
+   2. Type Selector — Income / Expense pill toggle
+   ------------------------------------------------------- */
+.type-selector {
+  display:       flex;
+  gap:           8px;
+  margin-bottom: 28px;
+  background:    var(--bg);
+  padding:       6px;
+  border-radius: 10px;
+  border:        1px solid var(--border);
+  width:         fit-content;
+}
+
+.type-btn {
+  padding:       8px 24px;
+  border-radius: 7px;
+  font-size:     0.9375rem;
+  font-weight:   600;
+  cursor:        pointer;
+  border:        none;
+  background:    transparent;
+  color:         var(--text-muted);
+  transition:    background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  line-height:   1.4;
+}
+
+.type-btn:hover {
+  background: var(--surface);
+  color:      var(--text);
+}
+
+/* Active / selected pill */
+.type-btn.active {
+  background: var(--primary);
+  color:      #fff;
+  box-shadow: var(--shadow);
+}
+
+.type-btn.active.type-income {
+  background: var(--income);
+  color:      #fff;
+}
+
+.type-btn.active.type-expense {
+  background: var(--primary);
+  color:      #fff;
+}
+
+/* -------------------------------------------------------
+   2b. Form Alert / Notification
+   ------------------------------------------------------- */
+.form-alert {
+  padding:       14px 18px;
+  border-radius: var(--radius);
+  margin-bottom: 24px;
+  font-size:     0.9375rem;
+  line-height:   1.5;
+  box-shadow:    var(--shadow);
+  display:       none;
+}
+
+.form-alert-success {
+  background-color: var(--income-light);
+  color:            var(--income);
+  border:           1px solid #bbf7d0;
+}
+
+.form-alert-error {
+  background-color: var(--expense-light);
+  color:            var(--expense);
+  border:           1px solid #fecaca;
+}
+
+.alert-action-link {
+  color:           var(--primary);
+  font-weight:     700;
+  text-decoration: underline;
+  margin-left:     6px;
+}
+
+.alert-action-link:hover {
+  color: var(--primary-dark);
+}
+
+/* -------------------------------------------------------
+   3. Transaction Form Layout
+   ------------------------------------------------------- */
+.transaction-form {
+  display:        flex;
+  flex-direction: column;
+  gap:            0;
+}
+
+/* -------------------------------------------------------
+   4. Form Group — label + input stacked
+   ------------------------------------------------------- */
+.form-group {
+  display:        flex;
+  flex-direction: column;
+  gap:            6px;
+  margin-bottom:  20px;
+}
+
+/* -------------------------------------------------------
+   5. Form Label
+   ------------------------------------------------------- */
+.form-label {
+  font-size:   0.875rem;
+  font-weight: 600;
+  color:       var(--text);
+}
+
+.form-optional {
+  font-weight: 400;
+  color:       var(--text-muted);
+  font-size:   0.8125rem;
+}
+
+/* -------------------------------------------------------
+   6. Textarea
+   ------------------------------------------------------- */
+.form-textarea {
+  min-height: 100px;
+  resize:     vertical;
+  line-height: 1.6;
+}
+
+/* -------------------------------------------------------
+   7. Save Button — full-width
+   ------------------------------------------------------- */
+.btn-save {
+  width:         100%;
+  padding:       14px;
+  font-size:     1rem;
+  font-weight:   700;
+  margin-top:    8px;
+  border-radius: var(--radius);
+  background:    var(--primary);
+  color:         #fff;
+  border:        none;
+  cursor:        pointer;
+  transition:    background 0.15s ease;
+}
+
+.btn-save:hover {
+  background: var(--primary-dark);
+}
+
+.btn-save:disabled {
+  opacity: 0.55;
+  cursor:  not-allowed;
+  background: var(--primary);
+}
+
+/* -------------------------------------------------------
+   8. Cancel Link — centered below save button
+   ------------------------------------------------------- */
+.cancel-link-wrapper {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.cancel-link {
+  font-size:   0.9rem;
+  color:       var(--text-muted);
+  transition:  color 0.15s ease;
+}
+
+.cancel-link:hover {
+  color:           var(--expense);
+  text-decoration: underline;
+}
+
+/* -------------------------------------------------------
+   9. Responsive adjustments
+   ------------------------------------------------------- */
+@media (max-width: 768px) {
+  .form-card {
+    max-width: 100%;
+  }
+
+  .type-selector {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .type-btn {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-card {
+    padding: 18px 14px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .type-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .type-btn {
+    min-width: 0;
+  }
+}
